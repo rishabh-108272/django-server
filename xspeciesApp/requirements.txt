@@ -1,4 +1,3 @@
-PIL
 ultralytics
 shutil
 opencv-python 
