@@ -1,4 +1,3 @@
 ultralytics
-shutil
 opencv-python 
 
