@@ -10,17 +10,19 @@ from django.conf import settings
 import cv2
 from ultralytics import YOLO
 from xspecies.models import RecentScan, FeaturedCategory
-import time  # For timing and sleep optimization
+import time  
 
-# Load YOLOv8 models
-leaf_model = YOLO(r"C:\django-tutorial\xspeciesApp\xspeciesApp\leaf.pt", task='detect')
-flower_model = YOLO(r"C:\django-tutorial\xspeciesApp\xspeciesApp\flower.pt", task='detect')
-fruit_model = YOLO(r"C:\django-tutorial\xspeciesApp\xspeciesApp\fruit.pt", task='detect')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
 
-# Global variable to manage the camera feed
+# Load YOLO models with dynamically constructed paths
+leaf_model = YOLO(os.path.join(MODELS_DIR, 'leaf.pt'), task='detect')
+flower_model = YOLO(os.path.join(MODELS_DIR, 'flower.pt'), task='detect')
+fruit_model = YOLO(os.path.join(MODELS_DIR, 'fruit.pt'), task='detect')
+
 camera_active = True
 
-# Function to draw bounding boxes
+
 def draw_bounding_boxes(frame, results, color=(0, 255, 0)):
     for result in results:
         for box in result.boxes:
