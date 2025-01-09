@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=6*3ocd_+1bc$ndh3x$x9g)u$5m_li)()d4ut%xt4x7_n3!d7^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']  
+ALLOWED_HOSTS = ['*']  
 
 
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,43 @@ DATABASES = {
 }
 
 
+#AWS configuration
+
+AWS_ACCESS_KEY_ID= 'AKIAQE3ROSH67DXC7M6T'
+AWS_SECRET_ACCESS_KEY= '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'
+
+#Basic storage configuration for Amazon S3
+
+AWS_STORAGE_BUCKET_NAME = 'xspecies-bkt-96'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_FILE_OVERWRITE = False 
+
+
+# Django < 4.2 
+'''
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+'''
+
+# Django > 4.2 
+
+STORAGES = {
+
+    # Media file (image) management   
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+    
+    # CSS and JS file management
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -119,7 +157,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
